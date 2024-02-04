@@ -1,22 +1,22 @@
 from django.contrib.auth import login
 from django.shortcuts import render, redirect
+
 from .forms import SignUpForm
 
-def frontpage(requests):
-    return render(requests, 'core/frontpage.html')
+def frontpage(request):
+    return render(request, 'core/frontpage.html')
 
-def signup(requests):
-    if requests.method == 'POST':
-        form = SignUpForm(requests.POST)
+def signup(request):
+    if request.method == 'POST':
+        form = SignUpForm(request.POST)
 
         if form.is_valid():
             user = form.save()
 
-            login(requests, user)
+            login(request, user)
 
             return redirect('frontpage')
-    
     else:
         form = SignUpForm()
-
-    return render(requests, 'core/signup.html')
+    
+    return render(request, 'core/signup.html', {'form': form})
